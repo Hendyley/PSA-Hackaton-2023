@@ -15,9 +15,12 @@
     font-size: small;
 }
 
+.bold-text{
+    font-weight: bold;
+}
+
 .large-text{
     font-size: large;
-    font-weight: bold;
 }
 
 .xlarge-text{

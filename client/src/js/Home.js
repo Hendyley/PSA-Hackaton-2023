@@ -24,18 +24,9 @@ const Home = () => {
         <div id="webapp-body">
 
             <div id="pagenav">
-                <a className="title">
-                    PSA Hackathon 2023
-                </a>
-                
-                <a className="tab">
-                    <Link to="/" className="active">Home</Link>
-                </a>
-                
-                <a className="tab">
-                    <Link to="/app" className="inactive">App</Link>
-                </a>
-                
+                <a className="title">PSA Hackathon 2023</a>
+                <a className="tab"><Link to="/" className="active">Home</Link></a>
+                <a className="tab"><Link to="/app" className="inactive">App</Link></a>
             </div>
 
 
