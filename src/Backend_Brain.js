@@ -1,26 +1,69 @@
+//This is the main backend part
+
+const express = require('express');
 const http = require('http');
-const fs = require('fs');
-const path = require('path');
+const socketIo = require('socket.io');
 
-const server = http.createServer((req, res) => {
-    // Set the content type to HTML
-    res.setHeader('Content-Type', 'text/html');
+//Refering to other custom module
+const JsonHandler = require('./JsonHandler');
 
-    // Read the HTML file and send it as the response
-    fs.readFile(path.join(__dirname, 'dummy.html'), (err, data) => {
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
+//variable
+outputjson = {};
+
+app.get('/main', (req, res) => {
+    res.sendFile(__dirname + '/dummy.html');
+});
+
+io.on('connection', (socket) => {
+   // console.log('A user connected');
+
+    socket.on('disconnect', () => {
+        //console.log('User disconnected');
+    });
+
+    socket.on('chat message', (msg) => {
+        console.log("Received: "+msg);
+        io.emit('chat message', msg);
+    });
+
+    // Sending JSON data to the client
+    socket.on('Demand_latest_output', () => {
+        demandoutput();
+        console.log("Output Json = "+outputjson);
+        socket.emit('dataFromServer', outputjson);
+    });
+    
+    // Receiving JSON data from the client
+    socket.on('dataFromClient', (clientData) => {
+        console.log('Data received from client:', clientData);
+    });    
+
+});
+
+
+//Check http://localhost:3000/main
+server.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000/main');
+
+    //read first
+    demandoutput();
+});
+
+
+function demandoutput(){
+    // Call the readoutput function from JsonHandler
+    JsonHandler.readoutput((err, outjson) => {
         if (err) {
-            // Handle errors (e.g., file not found)
-            res.writeHead(404);
-            res.end('Not Found');
+            // Handle errors here
+            console.error('Error:', err);
         } else {
-            res.writeHead(200);
-            res.end(data);
+            // Use outputjson here
+            outputjson = outjson;
+            //console.log('Exported JSON data:', outputjson);
         }
     });
-});
-
-// Listen on port 3000 (you can choose a different port)
-const port = 3000;
-server.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+}

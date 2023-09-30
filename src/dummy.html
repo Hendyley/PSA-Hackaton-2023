@@ -1,10 +1,61 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>To whomever it may concern</title>
+    <title>Socket.io Chat</title>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <h1>Thou shalt not swear in my Christian Minecraft Server</h1>
+    <ul id="messages"></ul>
+    <input id="input" autocomplete="off" /><button id="sendButton">Send</button>
+    <div id="serverData"></div>
+
+    <input id="clientDataInput" placeholder="Type something..." />
+    <button id="sb">Send to server in JSON format</button>
+    <button id="demandoutput">Get latest output result</button>
+    <script>
+        const socket = io();
+        const messages = document.getElementById('messages');
+        const input = document.getElementById('input');
+        const sendButton = document.getElementById('sendButton');
+
+        //sending over text
+        sendButton.addEventListener('click', () => {
+            const message = input.value.trim();
+            if (message) {
+                socket.emit('chat message', message);
+                input.value = '';
+            }
+        });
+
+        //receive output
+        const demantoutut = document.getElementById('demandoutput');
+        demantoutut.addEventListener('click', () => {
+            socket.emit('Demand_latest_output');
+        })
+
+        // Receiving JSON data from the server
+        socket.on('dataFromServer', (serverData) => {
+            const serverDataDiv = document.getElementById('serverData');
+            serverDataDiv.textContent = `Data from server: ${JSON.stringify(serverData)}`;
+        });
+
+        // Sending JSON data to the server
+        const sb = document.getElementById('sb');
+        const clientDataInput = document.getElementById('clientDataInput');
+
+        sb.addEventListener('click', () => {
+            const clientData = { message: clientDataInput.value };
+            socket.emit('dataFromClient', clientData);
+        });
+
+        socket.on('chat message', (msg) => {
+            const li = document.createElement('li');
+            console.log("adding: "+msg);
+            li.textContent = msg;
+            messages.appendChild(li);
+        });
+
+        
+    </script>
 </body>
 </html>
