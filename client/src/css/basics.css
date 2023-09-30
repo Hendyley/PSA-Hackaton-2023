@@ -1,0 +1,45 @@
+
+.sep-top{
+    margin-top:20px;
+}
+
+.sep-bot{
+    margin-bottom: 20px;
+}
+
+.centered-text{
+    text-align: center;
+}
+
+.small-text{
+    font-size: small;
+}
+
+.large-text{
+    font-size: large;
+    font-weight: bold;
+}
+
+.xlarge-text{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.centered-content{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.full-sized{
+    height:100%;
+    width:100%;
+}
+
+.padded{
+    padding:8px;
+}
+
+.margined{
+    margin:8px;
+}

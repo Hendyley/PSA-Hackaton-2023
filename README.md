@@ -13,4 +13,7 @@ Backend Files:
     * Function files:
         - JsonHandler.js  -- All the function to handle json data
 
-
+Frontend Files:
+* Client: 
+    * Src:
+        - App.js -- routing to main page

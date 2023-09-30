@@ -1,7 +1,8 @@
 import React from 'react';
 import './css/styles.css';
 import './css/pagenav.css';
-import './css/home.css';
+import './css/basics.css';
+import "./css/components.css";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './js/Home';

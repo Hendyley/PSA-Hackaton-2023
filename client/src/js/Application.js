@@ -19,9 +19,7 @@ const Settings = () => {
                 </a>
             </div>
 
-            <div id="sep"></div>
-
-            <div>
+            <div className="centered-content">
                 <div className="main-body">
 
                 </div> 
