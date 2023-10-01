@@ -13,18 +13,18 @@ from constraint import *
 
 
 q1 = Qmodel1()
-c1 = Cmodel1('c1',9,1,'2022-01-01')
+c1 = Cmodel1('c1',9,2,'2022-01-01')
 c2 = Cmodel2('c2',6,3,'2022-01-01')
 c3 = Cmodel1('c3',5,4,'2022-01-01')
-c4 = Cmodel1('c4',5,4,'2022-01-01')
-c5 = Cmodel1('c5',5,4,'2022-01-01')
+c4 = Cmodel1('c4',5,5,'2022-01-01')
+c5 = Cmodel1('c5',5,1,'2022-01-01')
 
 
 containers = []
 Assigned_container = []
 
-quay_width = 2 #q1.get_width()
-quay_length = 2 #q1.get_length()
+quay_width = q1.get_width()
+quay_length = q1.get_length()
 Max_quay_height = 5
 
 containers.append(c1)
@@ -59,6 +59,31 @@ def container_fits(container, position):
                     if occupied_positions[x + dx][y + dy][z + dz]:
                         return False  # Container doesn't fit
     return True
+
+# Additional constraint: Ensure the highest z value has the least loading sequence
+def loading_sequence_constraint(*positions):
+    highest_z = max(position[2] for position in positions)
+    loading_sequences = [container.get_loadingsequence() for container, position in zip(containers, positions)]
+    return loading_sequences[highest_z] == min(loading_sequences)
+
+# Additional constraint: Prioritize containers with soonest datetime for highest z
+def datetime_priority_constraint(*positions):
+    highest_z = max(position[2] for position in positions)
+    datetime_values = [container.get_datetime() for container, position in zip(containers, positions)]
+    return datetime_values[highest_z] == min(datetime_values)
+
+# Additional constraint: Containers must not exceed Max_quay_height when stacked together
+def max_height_constraint(*positions):
+    total_height = sum(container.get_height() for container, position in zip(containers, positions))
+    return total_height <= Max_quay_height
+
+# Additional constraint: Heaviest containers should be at the bottom (lowest z)
+def heaviest_at_bottom_constraint(*positions):
+    heaviest_container = max(containers, key=lambda container: container.get_weight())
+    heaviest_z = min(position[2] for container, position in zip(containers, positions) if container == heaviest_container)
+    return all(position[2] >= heaviest_z or container != heaviest_container for container, position in zip(containers, positions))
+
+
 
 for var in containers:
     problem.addVariable(var.get_id(), positions)
