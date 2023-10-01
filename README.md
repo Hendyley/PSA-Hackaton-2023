@@ -17,3 +17,15 @@ Frontend Files:
 * Client: 
     * Src:
         - App.js -- routing to main page
+
+
+* Models:
+    * Container models:
+        * Cmodel1 
+            self.width = 3
+            self.lenght = 6
+            self.height = 3
+        * Cmodel2
+            self.width = 3
+            self.lenght = 12
+            self.height = 4
