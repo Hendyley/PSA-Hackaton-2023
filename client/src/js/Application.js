@@ -33,8 +33,8 @@ const Application = () => {
 
     useEffect(() => {
         socket.on("dataFromServer", (data) => {
-            console.log(data["batters"]["batter"]);
-            // setMessageReceived(data);
+            console.log(data["containers"]);
+            setMessageReceived(data["containers"]);
         })
     }, [socket]);
 

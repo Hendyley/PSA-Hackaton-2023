@@ -22,5 +22,31 @@
 			{ "id": "5006", "type": "Chocolate with Sprinkles" },
 			{ "id": "5003", "type": "Chocolate" },
 			{ "id": "5004", "type": "Maple" }
+		],
+	"containers":
+		[
+			{
+				"ContainerId": 5, 
+				"Position": "(3, 9, 0)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			},
+			{
+				"ContainerId": 42, 
+				"Position": "(5, 8, 0)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			},{
+				"ContainerId": 12, 
+				"Position": "(2, 3, 0)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			},
+			{
+				"ContainerId": 1, 
+				"Position": "(1, 2, 2)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			}
 		]
 }

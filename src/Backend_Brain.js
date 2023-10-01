@@ -17,6 +17,12 @@ const io = new Server(server, {
     },
 });
 
+const { exec } = require('child_process');
+
+const pythonScriptPath = 'src/helloworld.py';
+
+
+
 //variable
 outputjson = {};
 
@@ -36,10 +42,32 @@ io.on('connection', (socket) => {
 
     // Sending JSON data to the client
     socket.on('Demand_latest_output', () => {
-        demandoutput();
-        console.log("Output Json = "+outputjson);
-        // socket.emit('dataFromServer', "outputjson");
-        socket.emit('dataFromServer', outputjson);
+        // demandoutput();
+        console.log("Output Json Before = "+outputjson);
+  
+
+        exec(`python ${pythonScriptPath}`, (error, stdout, stderr) => {
+            if (error) {
+              console.error(`Error: ${error.message}`);
+              return;
+            }
+          
+            if (stderr) {
+              console.error(`stderr: ${stderr}`);
+              return;
+            }
+          
+            const pythonOutput = stdout.trim(); // Trim any leading/trailing whitespace
+          
+            console.log(`Python script output: ${pythonOutput}`);
+          
+            // Now you can use 'pythonOutput' in your Node.js code
+            // For example, you can pass it to another function or process it as needed
+            // You can also return it from this script if needed
+          });
+          demandoutput();
+          console.log("Output Json After = "+outputjson);
+          socket.emit('dataFromServer', outputjson);
     });
     
     // Receiving JSON data from the client
