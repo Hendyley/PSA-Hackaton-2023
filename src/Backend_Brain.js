@@ -46,8 +46,8 @@ io.on('connection', (socket) => {
 
 
 //Check http://localhost:3000/main
-server.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000/main');
+server.listen(4000, () => {
+    console.log('Server is running on http://localhost:4000/main');
 
     //read first
     demandoutput();
