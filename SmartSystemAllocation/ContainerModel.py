@@ -38,6 +38,8 @@ class Cmodel1(Container):
     def get_id(self):
         return self.id
 
+    def get_date(self):
+        return self.datetime.date()
 
 class Cmodel2(Container):
 

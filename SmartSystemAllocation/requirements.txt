@@ -1,0 +1,7 @@
+Flask
+gunicorn
+numpy
+python-constraint
+datetime
+pandas
+faker
