@@ -6,19 +6,27 @@ Required
 * install react -- npm install -g create-react-app.
 
 How to run the file? 
+
+* Backend Server
 ```shell
 nodemon .\src\Backend_Brain.js
 ```
+
+* Front end
+
+```shell
+cd client
+npm start
+```
+
+
+
 Backend Files:
 * Main: Backend_Brain.js
     * Function files:
         - JsonHandler.js  -- All the function to handle json data
 
 Frontend Files:
-```shell
-cd client
-npm start
-```
 * client: src: App.js -- main app and routing to multiple pages.
     * Activities:
         - Home.js -- Landing page and project description.
@@ -40,3 +48,4 @@ npm start
             self.lenght = 12
             self.height = 4
     
+YoutubeLink: https://youtu.be/_1olg6klE0I

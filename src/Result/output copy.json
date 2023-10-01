@@ -1,0 +1,52 @@
+{
+	"id": "0001",
+	"type": "donut",
+	"name": "Cake",
+	"ppu": 0.55,
+	"batters":
+		{
+			"batter":
+				[
+					{ "id": "1001", "type": "Regular" },
+					{ "id": "1002", "type": "Chocolate" },
+					{ "id": "1003", "type": "Blueberry" },
+					{ "id": "1004", "type": "Devil's Food" }
+				]
+		},
+	"topping":
+		[
+			{ "id": "5001", "type": "None" },
+			{ "id": "5002", "type": "Glazed" },
+			{ "id": "5005", "type": "Sugar" },
+			{ "id": "5007", "type": "Powdered Sugar" },
+			{ "id": "5006", "type": "Chocolate with Sprinkles" },
+			{ "id": "5003", "type": "Chocolate" },
+			{ "id": "5004", "type": "Maple" }
+		],
+	"containers":
+		[
+			{
+				"ContainerId": 5, 
+				"Position": "(3, 9, 0)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			},
+			{
+				"ContainerId": 42, 
+				"Position": "(5, 8, 0)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			},{
+				"ContainerId": 12, 
+				"Position": "(2, 3, 0)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			},
+			{
+				"ContainerId": 1, 
+				"Position": "(1, 2, 2)", 
+				"Weight": 4, 
+				"LoadingDate": "2023-10-01"
+			}
+		]
+}
