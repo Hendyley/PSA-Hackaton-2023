@@ -3,6 +3,7 @@ PSA-Hackaton-2023
 
 Required
 * install node -- https://nodejs.org/en
+* install react -- npm install -g create-react-app.
 
 How to run the file? 
 ```shell
@@ -14,9 +15,16 @@ Backend Files:
         - JsonHandler.js  -- All the function to handle json data
 
 Frontend Files:
+How to run the file? 
+```shell
+cd client
+npm start
+```
 * Client: 
-    * Src:
-        - App.js -- routing to main page
+    * Src: App.js -- main app and routing to multiple pages.
+        * Activities:
+            - Home.js -- Landing page and project description.
+            - Application.js -- Page for I/O between backend.
 
 
 * Models:
