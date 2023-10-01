@@ -1,17 +1,42 @@
 // Application.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useNavigate } from "react-router-dom";
+import socketIO from 'socket.io-client';
 
-const Settings = () => {
-    // see https://dev.to/novu/building-a-chat-app-with-socketio-and-react-2edj
-    const navigate = useNavigate();
-    const [userName, setUserName] = useState('');
-  
+import '../css/application.css';
+import TableComponent from './TableComponent';
+
+
+const socket = socketIO.connect('http://localhost:3001');
+
+const Application = () => {  
     const sendMessage = (e) => {
-      e.preventDefault();
-      localStorage.setItem('userName', userName);
-      navigate('/');
+      socket.emit('Demand_latest_output');
     };
+
+    const [jsonData, setMessageReceived] = useState([
+        {
+            "ContainerId": 8, 
+            "Position": "(3, 9, 0)", 
+            "Weight": 4, 
+            "LoadingDate": "2023-10-01"
+        },
+        {
+            "ContainerId": 11, 
+            "Position": "(5, 8, 0)", 
+            "Weight": 4, 
+            "LoadingDate": "2023-10-01"
+        },
+      ]);
+
+    console.log(typeof(jsonData));
+
+    useEffect(() => {
+        socket.on("dataFromServer", (data) => {
+            console.log(data["batters"]["batter"]);
+            // setMessageReceived(data);
+        })
+    }, [socket]);
 
     return (
         <div id="webapp-body">
@@ -23,11 +48,27 @@ const Settings = () => {
 
             <div className="centered-content">
                 <div className="main-body">
-                    <button onClick={sendMessage}> submit </button>
+                    <div className="centered-content sep-top">
+                        <div>
+                            <button onClick={sendMessage} id="application-button"> Receive </button>                    
+                        </div> 
+                    </div>
+                    <h1 className='centered-text'>Message Received: </h1>
+                    <div className ='centered-content'>
+                        <div className='content-box' id='data-table-box'>
+                            {/* <div className='centered-text'>{messageReceived}</div>      */}
+                            <h1 className='centered-text' id="data-table-title">JSON Data Table</h1>
+                            <TableComponent data={jsonData} />                   
+                        </div>
+                    </div>
+                        
+
+
+                    
                 </div> 
             </div>
         </div>
     );
 };
 
-export default Settings;
+export default Application;
