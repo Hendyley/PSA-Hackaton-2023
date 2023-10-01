@@ -1,37 +1,74 @@
 #!/usr/bin/env python
-import random
+import numpy as np
 import sys
-import datetime
+from datetime import datetime,timedelta
 # Add the directory containing the module to sys.path
 #module_path = '\models'
 #sys.path.append(module_path)
 #print(sys.path)
 from QuayModel import Qmodel1
 from ContainerModel import Cmodel1, Cmodel2
-
+from flask import Flask, request, jsonify
 from constraint import *
+import pandas as pd
+from faker import Faker
+
+# Initialize the Faker object
+faker = Faker()
+
+# Number of rows of dummy data to generate & weight range
+num_rows = 100
+weight_min = 2
+weight_max = 4
+
+random_date = faker.date_this_decade()
+
+# Generate dummy data
+
+containerId = np.arange(1, num_rows + 1)
+containerType = np.random.randint(1, 2, num_rows)
+zone = np.full(num_rows, 'A')
+weights = np.random.randint(weight_min, weight_max + 1, num_rows) * containerType
+start_times = [datetime.now() for _ in range(num_rows)]
+random_seconds = np.random.randint(0, 86400, num_rows)
+random_seconds = [int(sec) for sec in random_seconds]
+end_times = [start + timedelta(seconds=secs) for start, secs in zip(start_times, random_seconds)]
 
 
+# Create a DataFrame from the generated data
+df = pd.DataFrame({
+    'ContainerId': containerId,
+    'ContainerType': containerType,
+    'Zone': zone,
+    'Weight': weights,
+    'StartDate': start_times,
+    'EndDate': end_times,
+})
+
+#Sort by EndDate
+df.sort_values(by='EndDate', inplace=True)
+
+#Group by Date and assign an incremental count within each date group
+df['LoadingSequence'] = df.groupby(df['EndDate'].dt.date).cumcount() + 1
+
+print(df)
+## ALGO
+#id,weight,loadingsequence,datetime
 q1 = Qmodel1()
-c1 = Cmodel1('c1',9,2,'2022-01-01')
-c2 = Cmodel2('c2',6,3,'2022-01-01')
-c3 = Cmodel1('c3',5,4,'2022-01-01')
-c4 = Cmodel1('c4',5,5,'2022-01-01')
-c5 = Cmodel1('c5',5,1,'2022-01-01')
-
-
 containers = []
 Assigned_container = []
+
+for i in range(num_rows):
+    if df['ContainerType'][i] == 1:
+        container = Cmodel1(df['ContainerId'][i], df['Weight'][i], df['LoadingSequence'][i], df['EndDate'][i])
+    else:
+        container = Cmodel2(df['ContainerId'][i], df['Weight'][i], df['LoadingSequence'][i], df['EndDate'][i])
+    containers.append(container)
+
 
 quay_width = q1.get_width()
 quay_length = q1.get_length()
 Max_quay_height = 5
-
-containers.append(c1)
-containers.append(c2)
-containers.append(c3)
-containers.append(c4)
-containers.append(c5)
 
 
 # Create a CSP problem
@@ -102,16 +139,46 @@ for i in range(len(containers)):
                               (container1.get_id(), container2.get_id()))
 
 sol = problem.getSolution()
+output = []
 
 if sol:
-    best_solution = max(sol, key=len)
+    best_solution = max(sol.values(), key=lambda x: len(x))
     # Print the best solution
     print("Best container arrangement:")
     for container in containers:
         position = sol[container.get_id()]  # Access the position from the 'sol' dictionary
         x, y, z = position
         occupied_positions[x - 1][y - 1][z] = True  # Mark the position as occupied
-        print(f"{container.get_id()}: Position {position}, Length: {container.get_length()}, Width: {container.get_width()}, Height: {container.get_height()}, Weight: {container.get_weight()}, Loading Sequence: {container.get_loadingsequence()}")
+        
+        container_info = {
+        'ContainerId': container.get_id(),
+        'Position': position,
+        'Weight': container.get_weight(),
+        'LoadingDate': container.get_date()
+        }
+
+        output.append(container_info)
+    sorted_data = sorted(output, key=lambda x: (x["LoadingDate"]))
+    
+    formatted_outputstr = ""
+
+    for item in sorted_data:
+        container_id = item['ContainerId']
+        position = item['Position']
+        weight = item['Weight']
+        loadingdate = item['LoadingDate']
+        
+    
+    # Format the container information and append to the string
+        container_info = (
+            f"ContainerId: {container_id}, "
+            f"Position: {position}, "
+            f"Weight: {weight}, "
+            f"LoadingDate: {loadingdate} \n "
+        )
+        formatted_outputstr += container_info
+
+    print(formatted_outputstr)
 
     # Print occupied positions
     print("\nOccupied Positions:")
@@ -123,3 +190,20 @@ if sol:
                     print(f"Position ({x + 1}, {y + 1}, {z}) is occupied.")
 else:
     print("No valid solution found.")
+
+app = Flask(__name__)
+
+@app.route("/", methods=["GET", "POST"])
+def processing():
+    try:
+        if request.method == "POST":
+            return jsonify(formatted_outputstr)
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+if __name__ == '__main__':
+    app.run()
+
+
+
+
