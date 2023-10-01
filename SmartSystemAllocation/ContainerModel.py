@@ -11,19 +11,20 @@ class Container(object):
 
 class Cmodel1(Container):
     
-    def __init__(self, weight, loadingsequence):
-        self.Container_id = id(self)
-        self.width = 3
-        self.lenght = 6
-        self.height = 3
+    def __init__(self, id, weight, loadingsequence, datetime):
+        self.id = id
+        self.width = 1
+        self.length = 1
+        self.height = 1
         self.weight = weight
         self.loadingsequence = loadingsequence
+        self.datetime = datetime
 
     def get_width(self):
         return self.width
     
-    def get_lenght(self):
-        return self.lenght
+    def get_length(self):
+        return self.length
         
     def get_height(self):
         return self.height
@@ -33,23 +34,27 @@ class Cmodel1(Container):
     
     def get_loadingsequence(self):
         return self.loadingsequence
+    
+    def get_id(self):
+        return self.id
 
 
 class Cmodel2(Container):
 
-    def __init__(self, weight, loadingsequence):
-        self.Container_id = id(self)
-        self.width = 3
-        self.lenght = 12
-        self.height = 4
+    def __init__(self, id, weight, loadingsequence, datetime):
+        self.id = id
+        self.width = 1
+        self.length = 1
+        self.height = 3
         self.weight = weight
         self.loadingsequence = loadingsequence
+        self.datetime = datetime
 
     def get_width(self):
         return self.width
     
-    def get_lenght(self):
-        return self.lenght
+    def get_length(self):
+        return self.length
 
     def get_height(self):
         return self.height
@@ -59,5 +64,7 @@ class Cmodel2(Container):
     
     def get_loadingsequence(self):
         return self.loadingsequence
-
+    
+    def get_id(self):
+        return self.id
 

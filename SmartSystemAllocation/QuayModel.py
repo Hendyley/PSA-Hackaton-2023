@@ -13,13 +13,13 @@ class Qmodel1(quay):
     
     def __init__(self):
         self.quay_id = id(self)
-        self.width = 300
-        self.lenght = 1000
+        self.width = 10
+        self.length = 10
 
     def get_width(self):
         return self.width
     
-    def get_lenght(self):
-        return self.lenght
+    def get_length(self):
+        return self.length
 
 
