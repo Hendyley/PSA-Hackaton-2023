@@ -14,6 +14,10 @@ const Application = () => {
       socket.emit('Demand_latest_output');
     };
 
+    const sendUpdateCommand = (e) => {
+        socket.emit('Send_update_command');
+      };
+
     const [jsonData, setMessageReceived] = useState([
         {
             "ContainerId": 8, 
@@ -51,6 +55,9 @@ const Application = () => {
                     <div className="centered-content sep-top">
                         <div>
                             <button onClick={sendMessage} id="application-button"> Receive </button>                    
+                        </div> 
+                        <div>
+                            <button onClick={sendUpdateCommand} id="application-button"> Update Python </button>                    
                         </div> 
                     </div>
                     <h1 className='centered-text'>Message Received: </h1>

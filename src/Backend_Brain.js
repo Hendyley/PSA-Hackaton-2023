@@ -40,12 +40,7 @@ io.on('connection', (socket) => {
         io.emit('chat message', msg);
     });
 
-    // Sending JSON data to the client
-    socket.on('Demand_latest_output', () => {
-        // demandoutput();
-        console.log("Output Json Before = "+outputjson);
-  
-
+    socket.on('Send_update_command', () => {
         exec(`python ${pythonScriptPath}`, (error, stdout, stderr) => {
             if (error) {
               console.error(`Error: ${error.message}`);
@@ -65,6 +60,16 @@ io.on('connection', (socket) => {
             // For example, you can pass it to another function or process it as needed
             // You can also return it from this script if needed
           });
+        console.log("Python file run!");
+    })
+
+    // Sending JSON data to the client
+    socket.on('Demand_latest_output', () => {
+        // demandoutput();
+        console.log("Output Json Before = "+outputjson);
+  
+
+        
           demandoutput();
           console.log("Output Json After = "+outputjson);
           socket.emit('dataFromServer', outputjson);
