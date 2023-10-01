@@ -19,7 +19,7 @@ const io = new Server(server, {
 
 const { exec } = require('child_process');
 
-const pythonScriptPath = 'src/helloworld.py';
+const pythonScriptPath = 'SmartSystemAllocation/test.py';
 
 
 
