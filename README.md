@@ -58,10 +58,10 @@ YoutubeLink: https://youtu.be/_1olg6klE0I
 	* Enable Cloud Run API 
 	* Enable Google Container Registry API 
 	* Retrieve Dockerfile from this URL: 
-	    - https://cloud.google.com/run/docs/quickstarts/build-and-deploy#containerizing
+	    https://cloud.google.com/run/docs/quickstarts/build-and-deploy#containerizing
 	* Cloud build & Deploy 
-	    - gcloud builds submit --tag gcr.io/<project_id>/<function_name>
-	    - gcloud run deploy --image gcr.io/<project_id>/<function_name> --platform managed
+	    gcloud builds submit --tag gcr.io/<project_id>/<function_name>
+	    gcloud run deploy --image gcr.io/<project_id>/<function_name> --platform managed
 
 
 	Steps: 
